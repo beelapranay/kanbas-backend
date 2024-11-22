@@ -35,5 +35,5 @@ export function deleteAssignment(assignmentId) {
 
     Database.assignments = assignments.filter((assignment) => assignment._id !== assignmentId);
 
-    return assignments.length < initialLength; // True if an assignment was removed
+    return Database.assignments.length < initialLength;
 }

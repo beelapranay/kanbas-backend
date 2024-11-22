@@ -36,7 +36,7 @@ export default function AssignmentsRoute(app) {
         if (!deleted) {
             res.status(404).send({ error: "Assignment not found" });
         } else {
-            res.sendStatus(204);
+            res.send("DeltedKLfaskhfkahfk");
         }
     });
 }
