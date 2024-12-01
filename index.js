@@ -20,6 +20,10 @@ const sessionOptions = {
     secret: process.env.SESSION_SECRET || "kanbas",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+        sameSite: "none",
+        secure: true,
+    },
 };
 
 if (process.env.NODE_ENV !== "development") {
