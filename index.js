@@ -37,15 +37,23 @@ if (process.env.NODE_ENV !== "development") {
 
 app.use(session(sessionOptions));
 
-app.options("*", cors());
+const corsOptions = {
+    origin: (origin, callback) => {
+        const allowedOrigins = [process.env.NETLIFY_URL || "http://localhost:3000"];
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-app.use(
-    cors({
-        origin: [process.env.NETLIFY_URL || "http://localhost:3000"],
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-    })
-);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 app.use(express.json());
 
 Lab5(app);
