@@ -51,16 +51,15 @@ export default function UserRoutes(app) {
     const signin = async (req, res) => {
         console.log("Signin request body:", req.body);
         const { username, password } = req.body;
-
-        // Simulate authentication
-        if (username === "iron_man" && password === "stark123") {
-            req.session["currentUser"] = { username, role: "admin" };
-            res.json({ username, role: "admin" });
+        const currentUser = await UserModel.findOne({ username, password });
+        if (currentUser) {
+            req.session["currentUser"] = currentUser;
+            res.json(currentUser);
         } else {
-            res.status(401).json({ message: "Unauthorized" });
+            res.status(401).json({ message: "Unable to login. Try again later." });
         }
     };
-
+    
     const signup = async (req, res) => {
         const user = await dao.findUserByUsername(req.body.username);
         if (user) {
