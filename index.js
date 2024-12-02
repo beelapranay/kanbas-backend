@@ -10,6 +10,7 @@ import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import EnrollmentRoutes from './Kanbas/Enrollments/routes.js';
 import AssignmentsRoute from './Kanbas/Assignments/routes.js';
 import mongoose from 'mongoose';
+const MongoStore = require('connect-mongo');
 import "dotenv/config"
 
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
@@ -20,6 +21,9 @@ const sessionOptions = {
     secret: process.env.SESSION_SECRET || "kanbas",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_CONNECTION_STRING,
+    }),
     cookie: {
         sameSite: "lax",
         secure: false,
