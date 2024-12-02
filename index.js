@@ -37,6 +37,8 @@ if (process.env.NODE_ENV !== "development") {
 
 app.use(session(sessionOptions));
 
+app.options("*", cors());
+
 app.use(
     cors({
         origin: [process.env.NETLIFY_URL || "http://localhost:3000"],
