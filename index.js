@@ -39,8 +39,9 @@ app.use(session(sessionOptions));
 
 app.use(
     cors({
-        credentials: true,
         origin: [process.env.NETLIFY_URL || "http://localhost:3000"],
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     })
 );
 app.use(express.json());
