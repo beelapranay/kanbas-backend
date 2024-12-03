@@ -13,6 +13,13 @@ import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import "dotenv/config"
 
+//the mongodb connection string was causing the issue
+//mongodb+srv://<username>:<db_password>@kanbas.av3go.mongodb.net/?retryWrites=true&w=majority&appName=Kanbas was not working because
+//the URL was connecting to the cluster but not the database.
+//the URL had to be modified to:
+//mongodb+srv://pranay:<db_password>@kanbas.av3go.mongodb.net/kanbas?retryWrites=true&w=majority&appName=Kanbas
+//the database name had to be added
+
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
 mongoose.connect(CONNECTION_STRING);
 const app = express();
@@ -39,8 +46,6 @@ if (process.env.NODE_ENV !== "development") {
     };
 }
 
-app.use(session(sessionOptions));
-
 const corsOptions = {
     origin: (origin, callback) => {
         const allowedOrigins = [process.env.NETLIFY_URL || "http://localhost:3000"];
@@ -57,6 +62,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
+
+app.use(session(sessionOptions));
 
 app.use(express.json());
 
