@@ -60,6 +60,16 @@ const corsOptions = {
     allowedHeaders: ["Content-Type", "Authorization"],
 };
 
+// Example using Express.js
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', process.env.NETLIFY_URL); // Replace with your actual Netlify URL
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow these HTTP methods
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization'); // Allow these headers
+    res.header('Access-Control-Allow-Credentials', 'true'); // If you're using credentials (cookies, authorization headers)
+    next();
+  });
+  
+
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
